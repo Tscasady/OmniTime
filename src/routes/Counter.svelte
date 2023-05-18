@@ -1,11 +1,18 @@
 <script lang='ts'>
-  let count = 0;
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
+  export let count = 0;
+  export let text: string;
 
   function handleClick() {
-    return count += 1
+    count += 1;
+    dispatch('message', {
+      count: count 
+    })
   }
 
-  export let text: string;
 </script>
 
 <button on:click={handleClick}>
