@@ -2,20 +2,25 @@
 	export let duration: number;
 	let timeElapsed = 0;
 	let timeRemaining = 0;
+	let interval: number;
+
 	let seconds = duration % 60;
 	let minutes = duration / 60;
+
 	$: timeRemaining = duration - timeElapsed;
 	$: seconds = timeRemaining % 60;
 	$: minutes = Math.floor(timeRemaining / 60);
+
 	let appendSeconds = '0' + seconds.toString();
 	let appendMinutes = minutes.toString();
 
 	function start() {
 		startTimer();
-		setInterval(startTimer, 1000);
+		interval = window.setInterval(startTimer, 1000);
+		console.log('interval', interval);
 	}
 
-	async function incrementTime() {
+	function incrementTime() {
 		timeElapsed++;
 	}
 
@@ -45,14 +50,37 @@
 
 	export let id: number;
 
-	function pause() {}
+	function pause() {
+		clearInterval(interval);
+	}
 
-	function disable() {}
+	let status = false;
+
+	function disable() {
+		pause();
+		status = true;
+	}
 </script>
 
 <div>
 	<p>I'm a timer with time: {appendMinutes}:{appendSeconds}</p>
-	<button on:click={start}> START </button>
+	<button class="startBtn" on:click={start} disabled={status}> START </button>
+	<button on:click={pause}> PAUSE </button>
+	<button on:click={disable}> DISABLE </button>
 </div>
 
-<style></style>
+<!-- Timer Container's Concerns: -->
+<!-- Timer/s disabled because not the timer's turn -->
+
+<!-- Timer's Concerns: -->
+<!-- Am I on or off? -->
+
+<style>
+	.startBtn {
+		color: blue;
+	}
+
+	.startBtn:disabled {
+		color: gray;
+	}
+</style>
