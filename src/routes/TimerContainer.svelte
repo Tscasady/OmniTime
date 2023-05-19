@@ -32,7 +32,7 @@
 
 <div>
   {#each activeTimers as timerId}
-    <Timer id={timerId}/>
+    <Timer id={timerId} duration={600}/>
   {/each}
 </div>
 
