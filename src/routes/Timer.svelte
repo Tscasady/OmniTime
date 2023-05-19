@@ -17,7 +17,7 @@
 	function start() {
 		startTimer();
 		interval = window.setInterval(startTimer, 1000);
-		console.log('interval', interval);
+		// console.log('interval', interval);
 	}
 
 	function incrementTime() {
@@ -54,26 +54,26 @@
 		clearInterval(interval);
 	}
 
-	let status = false;
+	let buttonStatus = false;
 
-	function disable() {
+	export function disable() {
 		pause();
-		status = true;
+		buttonStatus = true;
+	}
+
+	export function enable() {
+		start();
+		buttonStatus = false;
 	}
 </script>
 
 <div>
 	<p>I'm a timer with time: {appendMinutes}:{appendSeconds}</p>
-	<button class="startBtn" on:click={start} disabled={status}> START </button>
-	<button on:click={pause}> PAUSE </button>
-	<button on:click={disable}> DISABLE </button>
+	<button class="startBtn" on:click={start} disabled={buttonStatus}> START </button>
+	<button on:click={pause} disabled={buttonStatus}> PAUSE </button>
+	<button on:click={disable} disabled={buttonStatus}> DISABLE </button>
+	<button on:click={enable} disabled={!buttonStatus}>ENABLE</button>
 </div>
-
-<!-- Timer Container's Concerns: -->
-<!-- Timer/s disabled because not the timer's turn -->
-
-<!-- Timer's Concerns: -->
-<!-- Am I on or off? -->
 
 <style>
 	.startBtn {
